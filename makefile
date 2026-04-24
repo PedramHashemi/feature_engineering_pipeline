@@ -8,7 +8,7 @@ lint:
 run tests:
 	pytest tests/
 
-run_pipeline:
+run-pipeline:
 	python src/pipeline.py
 
 all: install lint run_pipeline

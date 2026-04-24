@@ -21,6 +21,10 @@ The results can be found in src/features/feature_manifest.json
 
 The project includes 
 
+
+# CI/CD
+The CI pipeline doesn't run because there is no data in the data folder. since the repository is public I decided not to upload the data into github.
+
 ## What is missing in the pipeline:
 - testing: We can add a test for our utils, and pipeline stages.
 - The project can be done with mlflow with a docker as env

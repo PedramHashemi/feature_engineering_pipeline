@@ -45,8 +45,6 @@ def rfm_feature_maker(
         pd.DataFrame: _description_
     """
     as_of_date = pd.to_datetime(as_of_date)
-
-    # Aggregate orders
     agg = orders.groupby("customer_id").agg(
         last_order_date=("order_date", "max"),
         frequency=("order_id", "count"),
@@ -57,26 +55,28 @@ def rfm_feature_maker(
     agg["recency_days"] = (as_of_date - agg["last_order_date"]).dt.days
 
     # Merge with customers
-    df = customers.merge(agg, on="customer_id", how="left")
+    df = customers[["customer_id", "signup_date"]].merge(
+        agg, on="customer_id", how="left")  # we dont loose any data here
 
     # Fill customers with no orders
     df["frequency"] = df["frequency"].fillna(0)
     df["monetary"] = df["monetary"].fillna(0)
     df["recency_days"] = df["recency_days"].fillna(
-        (as_of_date - pd.to_datetime(df["signup_date"])).dt.days
-    )
+        (as_of_date - pd.to_datetime(df["signup_date"])).dt.days)
 
-    return df
+    return df[["customer_id", "recency_days", "frequency", "monetary"]]
 
-def return_feature_maker(returns: pd.DataFrame) -> pd.DataFrame:
+def return_feature_maker(returns: pd.DataFrame, orders: pd.DataFrame) -> pd.DataFrame:
     """Features base on returns dataset.
 
     Args:
         returns (pd.DataFrame): _description_
+        orders (pd.DataFrame): _description_
 
     Returns:
         pd.DataFrame: _description_
     """
+    returns = returns.merge(orders[["order_id", "customer_id"]], on="order_id", how="left")
     agg = returns.groupby("customer_id").agg(
         return_count=("return_id", "count"),
         total_return_value=("refund_amount", "sum"),
@@ -94,7 +94,6 @@ def order_feature_maker(orders: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: _description_
     """
-
     agg = orders.groupby("customer_id").agg(
         avg_items_per_order=("items", "mean"), # we can also use median here.
         total_items=("items", "sum"),

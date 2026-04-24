@@ -57,11 +57,7 @@ def load_data(
 
         logger.info("Data ingestion completed successfully")
 
-        return {
-            "customers": customers,
-            "orders": orders_to_date,
-            "returns": returns_to_date
-        }
+        return customers, orders_to_date, returns_to_date
 
     except Exception as error:
         logger.exception(
@@ -112,7 +108,9 @@ def build_features(
         logger.info("Order features shape: %s", order_features.shape)
 
         logger.info("Generating return features...")
-        return_features = return_feature_maker(returns_as_of_date)
+        return_features = return_feature_maker(
+            returns_as_of_date, orders_as_of_date
+        )
         logger.info("Return features shape: %s", return_features.shape)
 
         logger.info("Merging feature sets...")
@@ -139,24 +137,36 @@ def build_features(
             time.time() - start_time)
 
 def run_pipeline(customers_path: str, orders_path: str, returns_path: str):
-    customers = pd.read_csv(customers_path)
-    orders = pd.read_csv(orders_path)
-    returns = pd.read_csv(returns_path)
+    """Run the pipeline.
 
+    Args:
+        customers_path (str): _description_
+        orders_path (str): _description_
+        returns_path (str): _description_
+    """
     snapshots = ["2024-06-30", "2024-12-31"]
 
     for dd in snapshots:
+        logger.info("ingesting data for snapshot: %s", dd)
+
+        customers, orders, returns = load_data(
+            customers_path,
+            orders_path,
+            returns_path,
+            as_of_date=dd
+        )
+
         logger.info("Processing snapshot for as-of-date: %s", dd)
         features = build_features(customers, orders, returns, dd)
 
-        output_path = f"../output/features_{dd}.parquet"
+        output_path = f"./output/features_{dd}.parquet"
         features.to_parquet(output_path, index=False)
 
         logger.info("[INFO] Snapshot %s: %s customers", dd, len(features))
 
 if __name__ == "__main__":
     run_pipeline(
-        customers_path="../data/customers.csv",
-        orders_path="../data/orders.csv",
-        returns_path="../data/returns.csv"
+        customers_path="./data/customers.csv",
+        orders_path="./data/orders.csv",
+        returns_path="./data/returns.csv"
     )

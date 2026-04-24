@@ -25,11 +25,11 @@ jobs:
 
       - name: Lint code
         run: |
-          flake8 src/
+          make lint
 
       - name: Run feature pipeline
         run: |
-          python src/pipeline.py
+          make run-pipeline
 
       - name: Check outputs exist
         run: |

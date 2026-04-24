@@ -1,6 +1,7 @@
 install:
 	pip install -r requirements.txt
 lint:
+	black src/
 	flake8 src/
 
 run tests:

@@ -19,13 +19,24 @@ The results can be found in src/features/feature_manifest.json
 **Dormancy**: We use a Poisson distribution to find out when a customer is going to make a new order. When the probability goes really high but the customer hasn't make the order yet, we say the customer is dormant. At some point we can also say the customer has churned. This only applies for customers with more than 2.
 - We can add a set of data with demographic information. (Age, Location, channel, etc.)
 
-The project includes 
-
+The project includes.
+- features
+  - logic.py
+  - feature_manifests.json
+- pipeline.py
+- requirements.txt
+- README
+- .github/workflows
 
 # CI/CD
 The CI pipeline doesn't run because there is no data in the data folder. since the repository is public I decided not to upload the data into github.
 
-## What is missing in the pipeline:
+# What is missing in the pipeline:
 - testing: We can add a test for our utils, and pipeline stages.
 - The project can be done with mlflow with a docker as env
 - Demographic features from customers dataset.
+
+# Things to check
+Things that I don't understand:
+`returns[returns["customer_id"] == "C000000"]` 
+The code above yields a data with many returns and no refunds. This is causing bad looking data in the features which might cause problem.

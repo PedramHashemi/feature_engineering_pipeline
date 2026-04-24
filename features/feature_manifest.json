@@ -1,0 +1,72 @@
+{
+    "features": [
+        {
+            "name": "recency",
+            "description": "Days since last order",
+            "source": ["orders.csv", "customers.csv"],
+            "type": "rfm"
+        }
+        {
+            "name": "dormancy",
+            "description": "We can determine if a customer is dormant or not based on it's previous order history. At some point it can also determin churn. This feature is binary and is 1 if the customer is dormant and 0 otherwise. We use this feature to remove recency.",
+            "source": ["orders.csv"],
+            "type": "order",
+            "usecase": ["churn", "clv"]
+        },
+        {
+            "name": "frequency",
+            "description": "Total number of orders for each customer.",
+            "source": ["orders.csv", "customers.csv"],
+            "type": "rfm"
+        },
+        {
+            "name": "monetary",
+            "description": "Total revenue for each customer.",
+            "source": ["orders.csv", "customers.csv"],
+            "type": "rfm"
+        },
+        {
+            "name": "avg_items_per_order",
+            "description": "Average number of items per order for each customer.",
+            "source": ["orders.csv"],
+            "type": "order"
+        },
+        {
+            "name": "total_items",
+            "description": "Total number of items for each customer.",
+            "source": ["orders.csv"],
+            "type": "order"
+        },
+        {
+            "name": "avg_revenue_per_order",
+            "description": "Average revenue per order for each customer.",
+            "source": ["orders.csv"],
+            "type": "order"
+        },
+        {
+            "name": "total_revenue",
+            "description": "Total revenue for each customer.",
+            "source": ["orders.csv"],
+            "type": "order"
+        },
+        {
+            "name": "return_count",
+            "description": "Total number of returns for each customer.",
+            "source": ["orders.csv"],
+            "type": "order"
+        },
+        {
+            "name": "total_return_value",
+            "description": "Total value of returns for each customer.",
+            "source": ["orders.csv"],
+            "type": "order"
+        },
+        {
+            "name": "avg_return_value",
+            "description": "Average value of returns for each customer.",
+            "source": ["orders.csv"],
+            "type": "order"
+        },
+        
+    ]
+}

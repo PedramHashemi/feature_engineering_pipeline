@@ -153,3 +153,10 @@ def run_pipeline(customers_path: str, orders_path: str, returns_path: str):
         features.to_parquet(output_path, index=False)
 
         logger.info("[INFO] Snapshot %s: %s customers", dd, len(features))
+
+if __name__ == "__main__":
+    run_pipeline(
+        customers_path="../data/customers.csv",
+        orders_path="../data/orders.csv",
+        returns_path="../data/returns.csv"
+    )

@@ -1,6 +1,5 @@
 """Data Ingestion and Preprocessing"""
 
-from typing import Tuple
 from functools import reduce
 import pandas as pd
 import logging

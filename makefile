@@ -1,8 +1,9 @@
 install:
 	pip install -r requirements.txt
+
 lint:
 	black src/
-	flake8 src/
+	flake8 src/ --max-line-length=100
 
 run tests:
 	pytest tests/

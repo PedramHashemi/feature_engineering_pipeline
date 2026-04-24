@@ -57,7 +57,7 @@ def rfm_feature_maker(
     agg["recency_days"] = (as_of_date - agg["last_order_date"]).dt.days
 
     # Merge with customers
-    df = customers.merge(agg, on="customer_id", how="left")  # we dont loose any data here
+    df = customers.merge(agg, on="customer_id", how="left")
 
     # Fill customers with no orders
     df["frequency"] = df["frequency"].fillna(0)

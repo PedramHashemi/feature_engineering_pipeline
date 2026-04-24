@@ -13,9 +13,7 @@ from features.logic import (
     return_feature_maker
 )
 
-# -----------------------------
-# Logger setup
-# -----------------------------
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -140,3 +138,19 @@ def build_features(
         logger.info(
             "Feature engineering took %.2f seconds",
             time.time() - start_time)
+        
+def run_pipeline(customers_path: str, orders_path: str, returns_path: str):
+    customers = pd.read_csv(customers_path)
+    orders = pd.read_csv(orders_path)
+    returns = pd.read_csv(returns_path)
+
+    snapshots = ["2024-06-30", "2024-12-31"]
+
+    for dd in snapshots:
+        logger.info(f"Processing snapshot for as-of-date: %s", dd)
+        features = build_features(customers, orders, returns, dd)
+
+        output_path = f"../output/features_{dd}.parquet"
+        features.to_parquet(output_path, index=False)
+
+        logger.info(f"[INFO] Snapshot {dd}: {len(features)} customers")

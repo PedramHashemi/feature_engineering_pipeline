@@ -45,27 +45,27 @@
         },
         {
             "name": "total_revenue",
-            "description": "Total revenue for each customer.",
+            "description": "Total revenue for each customer. We convert Monetary to total revenue.",
             "source": ["orders.csv"],
             "type": "order"
         },
         {
             "name": "return_count",
             "description": "Total number of returns for each customer.",
-            "source": ["orders.csv"],
-            "type": "order"
+            "source": ["returns.csv"],
+            "type": "return"
         },
         {
             "name": "total_return_value",
             "description": "Total value of returns for each customer.",
-            "source": ["orders.csv"],
-            "type": "order"
+            "source": ["returns.csv"],
+            "type": "return"
         },
         {
             "name": "avg_return_value",
             "description": "Average value of returns for each customer.",
-            "source": ["orders.csv"],
-            "type": "order"
+            "source": ["return.csv"],
+            "type": "return"
         },
         
     ]
